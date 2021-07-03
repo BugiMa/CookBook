@@ -28,10 +28,7 @@ import androidx.lifecycle.Observer
 class ShoppingListFragment : Fragment() {
 
     private lateinit var shoppingListViewModel: ShoppingListViewModel
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerViewAdapter: ShoppingListAdapter
 
-    private lateinit var listView: ListView
     private lateinit var fabMain: FloatingActionButton
     private lateinit var fabAdd: FloatingActionButton
     private lateinit var fabRemove: FloatingActionButton
@@ -44,18 +41,20 @@ class ShoppingListFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_shopping_list, container, false)
+        shoppingListViewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
+
+        val root = inflater.inflate(R.layout.fragment_shopping_list, container, false)
+        val recyclerView: RecyclerView = root.findViewById(R.id.shopping_list)
+
+        shoppingListViewModel.productLiveData.observe(viewLifecycleOwner, {
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = ShoppingListAdapter(requireActivity(), it, shoppingListViewModel)
+        })
+
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        recyclerView = view.findViewById(R.id.shopping_list)
-        shoppingListViewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
-        shoppingListViewModel.productLiveData.observe(requireActivity(), { productsArrayList ->
-            recyclerViewAdapter = ShoppingListAdapter(requireActivity(), productsArrayList, shoppingListViewModel)
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = recyclerViewAdapter
-        })
 
         fabMain   = view.findViewById(R.id.fab_main)
         fabAdd    = view.findViewById(R.id.fab_add)
@@ -132,10 +131,10 @@ class ShoppingListFragment : Fragment() {
 
         builder.setNeutralButton("Cancel") { _, _ -> }
         builder.setNegativeButton("Remove All") { _, _ ->
-            shoppingListViewModel.removeAll()
+            shoppingListViewModel.removeAllItems()
         }
         builder.setPositiveButton("Remove Checked") { _, _ ->
-            shoppingListViewModel.removeChecked()
+            shoppingListViewModel.removeCheckedItems()
         }
         builder.show()
     }

@@ -42,7 +42,7 @@ class ShoppingListAdapter(
             builder.setMessage("Do you really want to delete this product?")
 
             builder.setPositiveButton("Yes") { _, _ ->
-                viewModel.remove(position)
+                viewModel.removeItemAt(position)
             }
             builder.setNegativeButton("No") { _, _ -> }
             builder.show()
@@ -59,42 +59,4 @@ class ShoppingListAdapter(
         var textView: TextView = itemView.findViewById(R.id.shopping_item_textView)
         var checkBox: CheckBox = itemView.findViewById(R.id.shopping_item_checkBox)
     }
-
 }
-
-/*
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_shopping, parent, false)
-        return ViewHolder(view)
-    }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val product = products!![position]
-        holder.textView.text = product.toString()
-        holder.checkBox.isChecked = product.isChecked
-        holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            } else {
-                holder.textView.paintFlags = holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            }
-            viewModel.getList().value!![position].isChecked = isChecked
-        }
-        holder.textView.setOnLongClickListener {
-            val builder = AlertDialog.Builder(view.context)
-            builder.setTitle("Delete Product?")
-            builder.setMessage("Do you really want to delete this product?")
-
-            builder.setPositiveButton("Yes") { _, _ ->
-                viewModel.remove(position)
-            }
-            builder.setNegativeButton("No") { _, _ -> }
-            builder.show()
-
-            true
-        }
-    }
-    override fun getItemCount(): Int {
-        return products!!.size
-    }
-*/
