@@ -1,0 +1,34 @@
+<resources>
+    <!--================ Diets ================-->
+    <string-array name="array_diet">
+        <item>No Diet</item>
+        <item>Gluten Free</item>
+        <item>Ketogenic</item>
+        <item>Pescetarian</item>
+        <item>Vegetarian</item>
+        <item>Ovo-Vegetarian</item>
+        <item>Lacto-Vegetarian</item>
+        <item>Vegan</item>
+        <item>Paleo</item>
+        <item>Primal</item>
+        <item>Whole 30</item>
+    </string-array>
+
+
+    <!--================ Intolerances ================-->
+    <string-array name="array_intolerance">
+        <item>Dairy</item>
+        <item>Egg</item>
+        <item>Gluten</item>
+        <item>Grain</item>
+        <item>Peanut</item>
+        <item>Seafood</item>
+        <item>Sesame</item>
+        <item>Shellfish</item>
+        <item>Soy</item>
+        <item>Sulfite</item>
+        <item>Tree Nut</item>
+        <item>Wheat</item>
+    </string-array>
+
+</resources>

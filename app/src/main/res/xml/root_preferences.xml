@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="Recipe Filters">
+
+        <ListPreference
+            app:defaultValue="No Diet"
+            app:entries="@array/array_diet"
+            app:entryValues="@array/array_diet"
+            app:iconSpaceReserved="false"
+            app:key="diet"
+            app:title="Diet"
+            app:useSimpleSummaryProvider="true" />
+
+        <MultiSelectListPreference
+            app:dialogTitle="Select Intolerances"
+            app:entries="@array/array_intolerance"
+            app:entryValues="@array/array_intolerance"
+            app:iconSpaceReserved="false"
+            app:key="intolerance"
+            app:title="Intolerances" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="Display">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="dark_mode"
+            app:title="Dark Mode" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
