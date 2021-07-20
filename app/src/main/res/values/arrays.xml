@@ -14,7 +14,6 @@
         <item>Whole 30</item>
     </string-array>
 
-
     <!--================ Intolerances ================-->
     <string-array name="array_intolerance">
         <item>Dairy</item>
@@ -29,6 +28,54 @@
         <item>Sulfite</item>
         <item>Tree Nut</item>
         <item>Wheat</item>
+    </string-array>
+
+    <!--================ Cuisines ================-->
+    <string-array name="array_cuisine">
+        <item>African</item>
+        <item>American</item>
+        <item>British</item>
+        <item>Cajun</item>
+        <item>Caribbean</item>
+        <item>Chinese</item>
+        <item>Eastern European</item>
+        <item>European</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Indian</item>
+        <item>Irish</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Jewish</item>
+        <item>Korean</item>
+        <item>Latin American</item>
+        <item>Mediterranean</item>
+        <item>Mexican</item>
+        <item>Middle Eastern</item>
+        <item>Nordic</item>
+        <item>Southern</item>
+        <item>Spanish</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+    </string-array>
+
+    <!--================ Meal Types ================-->
+    <string-array name="array_meal_type">
+        <item>Main Course</item>
+        <item>Side Dish</item>
+        <item>Dessert</item>
+        <item>Appetizer</item>
+        <item>Salad</item>
+        <item>Bread</item>
+        <item>Breakfast</item>
+        <item>Soup</item>
+        <item>Beverage</item>
+        <item>Sauce</item>
+        <item>Marinade</item>
+        <item>Finger Food</item>
+        <item>Snack</item>
+        <item>Drink</item>
     </string-array>
 
 </resources>

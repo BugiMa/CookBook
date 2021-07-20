@@ -7,7 +7,7 @@
     tools:context=".ui.shopping.ShoppingListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shopping_list"
+        android:id="@+id/shopping_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -27,7 +27,8 @@
             android:src="@drawable/ic_add_shopping"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/fab_remove"
-            app:layout_constraintEnd_toEndOf="@+id/fab_remove" />
+            app:layout_constraintEnd_toEndOf="@+id/fab_remove"
+            tools:targetApi="lollipop" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_remove"
@@ -41,7 +42,8 @@
             android:src="@drawable/ic_remove_shopping"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/fab_main"
-            app:layout_constraintEnd_toEndOf="@+id/fab_main" />
+            app:layout_constraintEnd_toEndOf="@+id/fab_main"
+            tools:targetApi="lollipop" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_main"
@@ -49,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="72dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
             android:contentDescription="@string/main_fab"
             android:focusable="true"

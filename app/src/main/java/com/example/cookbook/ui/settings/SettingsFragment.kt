@@ -10,22 +10,27 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.*
 import com.example.cookbook.R
+import com.example.cookbook.repository.RecipeRepository
+import com.example.cookbook.ui.cookbook.CookBookViewModel
+import com.example.cookbook.ui.cookbook.CookBookViewModelFactory
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    lateinit var settingsViewModel: SettingsViewModel
+    lateinit var cookBookViewModel: CookBookViewModel
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-        settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
+        val repository = RecipeRepository()
+        val viewModelFactory = CookBookViewModelFactory(repository)
+        cookBookViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(CookBookViewModel::class.java)
 
         val prefDiet = findPreference<ListPreference>("diet")
         val prefIntolerance = findPreference<MultiSelectListPreference>("intolerance")
         val prefDarkMode = findPreference<SwitchPreferenceCompat>("dark_mode")
 
         prefDiet?.setOnPreferenceChangeListener { _, newValue ->
-            settingsViewModel.setDiet(newValue as String)
+            cookBookViewModel.setDiet(newValue as String)
             Toast.makeText(activity, "Diet: $newValue", Toast.LENGTH_LONG).show()
 
             Log.d("Diet", newValue)
@@ -34,7 +39,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         prefIntolerance?.setOnPreferenceChangeListener { preference, newValue ->
 
-            settingsViewModel.setIntolerances(newValue as HashSet<String>)
+            cookBookViewModel.setIntolerances(ArrayList(newValue as HashSet<String>))
+
             val selected = newValue.toString()
                 .replace("[", "")
                 .replace("]", "")

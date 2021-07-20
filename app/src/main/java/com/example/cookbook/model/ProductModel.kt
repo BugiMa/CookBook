@@ -1,4 +1,4 @@
-package com.example.cookbook.ui.shopping
+package com.example.cookbook.model
 
 data class ProductModel(val name: String, var quantity: Float, val unit: String, var isChecked: Boolean) {
 

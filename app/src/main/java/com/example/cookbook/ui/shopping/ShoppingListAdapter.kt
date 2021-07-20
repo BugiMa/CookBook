@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cookbook.R
+import com.example.cookbook.model.ProductModel
 import java.util.*
 
 class ShoppingListAdapter(
@@ -34,7 +35,7 @@ class ShoppingListAdapter(
             } else {
                 holder.textView.paintFlags = holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
-            viewModel.productArrayList[position].isChecked = isChecked
+            viewModel.switchItemCheckedAt(position)
         }
         holder.textView.setOnLongClickListener {
             val builder = AlertDialog.Builder(context)

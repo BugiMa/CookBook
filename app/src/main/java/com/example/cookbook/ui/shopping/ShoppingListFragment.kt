@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
-import android.widget.ListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,18 +21,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
-import androidx.lifecycle.Observer
 
 
 class ShoppingListFragment : Fragment() {
 
     private lateinit var shoppingListViewModel: ShoppingListViewModel
 
-    private lateinit var fabMain: FloatingActionButton
-    private lateinit var fabAdd: FloatingActionButton
+    private lateinit var fabMain:   FloatingActionButton
+    private lateinit var fabAdd:    FloatingActionButton
     private lateinit var fabRemove: FloatingActionButton
-    private val fabOpenAnimation: Animation by lazy {AnimationUtils.loadAnimation(requireContext(), R.anim.from_bottom_anim) }
-    private val fabCloseAnimation: Animation by lazy {AnimationUtils.loadAnimation(requireContext(), R.anim.to_bottom_anim) }
+
+    private val fabOpenAnimation:  Animation by lazy {AnimationUtils.loadAnimation(requireContext(), R.anim.fab_expand_anim) }
+    private val fabCloseAnimation: Animation by lazy {AnimationUtils.loadAnimation(requireContext(), R.anim.fab_colapse_anim) }
     private var isFabClicked: Boolean = false
 
     override fun onCreateView(
@@ -41,12 +40,12 @@ class ShoppingListFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        shoppingListViewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
 
         val root = inflater.inflate(R.layout.fragment_shopping_list, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.shopping_list)
+        val recyclerView: RecyclerView = root.findViewById(R.id.shopping_recycle_view)
 
-        shoppingListViewModel.productLiveData.observe(viewLifecycleOwner, {
+        shoppingListViewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
+        shoppingListViewModel.getProducts().observe(viewLifecycleOwner, {
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = ShoppingListAdapter(requireActivity(), it, shoppingListViewModel)
         })

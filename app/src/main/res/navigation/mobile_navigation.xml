@@ -9,13 +9,17 @@
         android:id="@+id/navigation_cookbook"
         android:name="com.example.cookbook.ui.cookbook.CookBookFragment"
         android:label="@string/title_cookbook"
-        tools:layout="@layout/fragment_cookbook" />
+        tools:layout="@layout/fragment_cookbook" >
+        <action
+            android:id="@+id/action_navigation_cookbook_to_recipeFragment"
+            app:destination="@id/recipe_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.example.cookbook.ui.favorites.FavoritesFragment"
+        android:name="com.example.cookbook.ui.cookbook.CookBookFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_cookbook" />
 
     <fragment
         android:id="@+id/navigation_shopping_list"
@@ -27,6 +31,15 @@
         android:id="@+id/navigation_settings"
         android:name="com.example.cookbook.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_shopping_list" />
+        />
+    <fragment
+        android:id="@+id/recipe_fragment"
+        android:name="com.example.cookbook.ui.recipe.RecipeFragment"
+        android:label="fragment_recipe"
+        tools:layout="@layout/fragment_recipe" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
