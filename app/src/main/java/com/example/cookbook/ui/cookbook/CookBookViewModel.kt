@@ -6,17 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.cookbook.model.RecipeModel
 import com.example.cookbook.model.RecipeSearchModel
 import com.example.cookbook.repository.RecipeRepository
-import com.example.cookbook.ui.search.SearchDialogFragment
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class CookBookViewModel( private val recipeRepository: RecipeRepository) : ViewModel() {
 
     private var recipesNumber: Int = 0
-
     private val recipesLiveData: MutableLiveData<Response<RecipeSearchModel>> = MutableLiveData()
-
-
 
     private val favoritesLiveData: MutableLiveData<ArrayList<RecipeModel>> = MutableLiveData()
     private val favoritesArrayList: ArrayList<RecipeModel> =ArrayList()
@@ -28,11 +24,11 @@ class CookBookViewModel( private val recipeRepository: RecipeRepository) : ViewM
     private var cuisines: ArrayList<String>? = null
     private var mealTypes : ArrayList<String>? = null
 
-    fun getResponse(offset: Int) {
+    fun getResponse(page: Int) {
         viewModelScope.launch {
-            val resp = recipeRepository.searchRecipes(offset, query, cuisines, mealTypes, diet, intolerances)
+            val response = recipeRepository.searchRecipes(page * 10, query, cuisines, mealTypes, diet, intolerances)
             //recipesNumber = response.body()!!.number
-            recipesLiveData.value = resp
+            recipesLiveData.value = response
         }
     }
 
@@ -50,28 +46,24 @@ class CookBookViewModel( private val recipeRepository: RecipeRepository) : ViewM
     fun setQuery(query: List<String>?) {
         this.query = query
     }
-
     fun getDiet(): String? {
         return diet
     }
     fun setDiet(diet: String?) {
         this.diet = diet
     }
-
     fun getIntolerances(): ArrayList<String>? {
         return intolerances
     }
     fun setIntolerances(intolerances: ArrayList<String>?) {
         this.intolerances = intolerances
     }
-
     fun getCuisines(): ArrayList<String>? {
         return cuisines
     }
     fun setCuisines(intolerances: ArrayList<String>?) {
         this.cuisines = intolerances
     }
-
     fun getMealTypes(): ArrayList<String>? {
         return mealTypes
     }

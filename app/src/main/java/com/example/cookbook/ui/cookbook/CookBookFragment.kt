@@ -26,7 +26,7 @@ class CookBookFragment : Fragment() {
 
     private lateinit var cookBookViewModel: CookBookViewModel
     private val cookBookAdapter by lazy { CookBookAdapter() }
-    var offset = 10
+    var offset = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,27 +60,9 @@ class CookBookFragment : Fragment() {
         val recyclerView: RecyclerView = root.findViewById(R.id.cookbook_recycle_view)
         val linearLayoutManager = LinearLayoutManager(this.context)
 
-        val scrollListener = object: EndlessRecyclerViewScrollListener(linearLayoutManager) {
-
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-
-                cookBookViewModel.getResponse(offset)
-
-                cookBookViewModel.getRecipes().observe(viewLifecycleOwner, Observer { response ->
-                    if (response.isSuccessful) {
-                        response.body()!!.results.let { (recyclerView.adapter as CookBookAdapter).addRecipeData(it, offset, 10) }
-                    } else {
-                        Toast.makeText(requireContext() ,response.code(), Toast.LENGTH_SHORT).show()
-                    }
-                })
-                offset += 10
-            }
-        }
-
         recyclerView.apply {
             this.layoutManager = linearLayoutManager
             this.adapter = cookBookAdapter
-            this.addOnScrollListener(scrollListener)
         }
 
         val repository = RecipeRepository()
@@ -104,24 +86,3 @@ class CookBookFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 }
-
-
-/*
-    val repository = RecipeRepository()
-        val viewModelFactory = CookBookViewModelFactory(repository)
-        cookBookViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(CookBookViewModel::class.java)
-        cookBookViewModel.loadRecipes(0)
-
-        mAdapter = CookBookAdapter(requireActivity(), cookBookViewModel.getRecipes(), cookBookViewModel)
-        val recyclerView: RecyclerView = root.findViewById(R.id.cookbook_recycle_view)
-        recyclerView.apply {
-            this.layoutManager = LinearLayoutManager(this.context)
-            this.adapter = mAdapter
-
-        }
-
-        cookBookViewModel.response.observe(viewLifecycleOwner, Observer { response ->
-            mAdapter.notifyDataSetChanged()
-            if (response.isSuccessful) {} else {}
-        })
-*/

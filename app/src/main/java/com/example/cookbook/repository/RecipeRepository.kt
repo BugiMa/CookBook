@@ -1,42 +1,36 @@
 package com.example.cookbook.repository
 
-import com.example.cookbook.api.Keys
 import com.example.cookbook.api.RetrofitSpoonacularInstance
 import com.example.cookbook.model.RecipeDetailsModel
 import com.example.cookbook.model.RecipeSearchModel
 import retrofit2.Response
 
+
 class RecipeRepository {
 
-
     suspend fun getRecipeDetails(id: Int): Response<RecipeDetailsModel> {
-        val url = "recipes/$id/information?includeNutrition=false&apiKey=${Keys.apiKey()}"
-        return RetrofitSpoonacularInstance.spoonacularApi.getRecipe(url)
+        return RetrofitSpoonacularInstance.spoonacularApi.getRecipe(id = id)
     }
 
-    suspend fun searchRecipes(offset: Int,
-                              query: List<String> ?= null,
-                              cuisine: ArrayList<String> ?= null,
-                              //excludeCuisine: ArrayList<String> ?= null,
-                              type: ArrayList<String> ?= null,
-                              diet: String ?= null,
-                              intolerances: ArrayList<String> ?= null,
-                              //includeIngredient: ArrayList<String> ?= null,
-                              //excludeIngredient: ArrayList<String> ?= null
-                              ): Response<RecipeSearchModel> {
+    suspend fun searchRecipes(
+        offset: Int? = 0,
+        query: List<String>?,
+        cuisine: ArrayList<String>?,
+        //excludeCuisine: ArrayList<String> ?= null,
+        type: ArrayList<String>?,
+        diet: String?,
+        intolerances: ArrayList<String>?,
+        //includeIngredient: ArrayList<String> ?= null,
+        //excludeIngredient: ArrayList<String> ?= null,
+        sort: String? = "popularity"
 
-        var url = "recipes/complexSearch?sort=popularity&offset=$offset"
-
-        if              (diet != null) url += "&diet=$diet"
-        if             (query != null) url +=             query.joinToString("-","&query=")
-        if           (cuisine != null) url +=           cuisine.joinToString(",","&cuisine=")
-        //if    (excludeCuisine != null) url +=    excludeCuisine.joinToString(",","&excludeCuisine=")
-        if      (intolerances != null) url +=      intolerances.joinToString(",","&intolerances=")
-        if              (type != null) url +=              type.joinToString(",","&type=")
-        //if (includeIngredient != null) url += includeIngredient.joinToString(",","&includeIngredients=")
-        //if (excludeIngredient != null) url += excludeIngredient.joinToString(",","&excludeIngredients=")
-
-        url += "&apiKey=${Keys.apiKey()}"
-        return RetrofitSpoonacularInstance.spoonacularApi.searchRecipes(url)
+        ): Response<RecipeSearchModel> {
+        return RetrofitSpoonacularInstance.spoonacularApi.searchRecipes(offset,
+                                                                        sort,
+                                                                        query?.joinToString("-"),
+                                                                        cuisine?.joinToString(","),
+                                                                        diet,
+                                                                        intolerances?.joinToString(","),
+                                                                        type?.joinToString(","))
     }
 }
