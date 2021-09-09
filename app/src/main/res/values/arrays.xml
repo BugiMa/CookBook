@@ -1,21 +1,32 @@
 <resources>
-    <!--================ Diets ================-->
-    <string-array name="array_diet">
-        <item>No Diet</item>
+    <!-- Reply Preference -->
+    <string-array name="array_diet" >
         <item>Gluten Free</item>
         <item>Ketogenic</item>
-        <item>Pescetarian</item>
         <item>Vegetarian</item>
-        <item>Ovo-Vegetarian</item>
         <item>Lacto-Vegetarian</item>
+        <item>Ovo-Vegetarian</item>
         <item>Vegan</item>
+        <item>Pescetarian</item>
         <item>Paleo</item>
         <item>Primal</item>
-        <item>Whole 30</item>
+        <item>Whole30</item>
     </string-array>
 
-    <!--================ Intolerances ================-->
-    <string-array name="array_intolerance">
+    <string-array name="array_diet_values" >
+        <item>gluten-free</item>
+        <item>ketogenic</item>
+        <item>vegetarian</item>
+        <item>lacto-Vegetarian</item>
+        <item>ovo-Vegetarian</item>
+        <item>vegan</item>
+        <item>pescetarian</item>
+        <item>paleo</item>
+        <item>primal</item>
+        <item>whole30</item>
+    </string-array>
+
+    <string-array name="array_intolerance" >
         <item>Dairy</item>
         <item>Egg</item>
         <item>Gluten</item>
@@ -30,7 +41,21 @@
         <item>Wheat</item>
     </string-array>
 
-    <!--================ Cuisines ================-->
+    <string-array name="array_intolerance_values" >
+        <item>dairy</item>
+        <item>egg</item>
+        <item>gluten</item>
+        <item>grain</item>
+        <item>peanut</item>
+        <item>seafood</item>
+        <item>sesame</item>
+        <item>shellfish</item>
+        <item>soy</item>
+        <item>sulfite</item>
+        <item>tree-nut</item>
+        <item>wheat</item>
+    </string-array>
+
     <string-array name="array_cuisine">
         <item>African</item>
         <item>American</item>
@@ -60,7 +85,6 @@
         <item>Vietnamese</item>
     </string-array>
 
-    <!--================ Meal Types ================-->
     <string-array name="array_meal_type">
         <item>Main Course</item>
         <item>Side Dish</item>
@@ -77,5 +101,4 @@
         <item>Snack</item>
         <item>Drink</item>
     </string-array>
-
 </resources>

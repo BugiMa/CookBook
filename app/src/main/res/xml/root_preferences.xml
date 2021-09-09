@@ -8,7 +8,7 @@
         <ListPreference
             app:defaultValue="No Diet"
             app:entries="@array/array_diet"
-            app:entryValues="@array/array_diet"
+            app:entryValues="@array/array_diet_values"
             app:iconSpaceReserved="false"
             app:key="diet"
             app:title="Diet"
@@ -17,7 +17,7 @@
         <MultiSelectListPreference
             app:dialogTitle="Select Intolerances"
             app:entries="@array/array_intolerance"
-            app:entryValues="@array/array_intolerance"
+            app:entryValues="@array/array_intolerance_values"
             app:iconSpaceReserved="false"
             app:key="intolerance"
             app:title="Intolerances" />

@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/navigation_cookbook"
-        android:icon="@drawable/ic_cookbook"
-        android:title="@string/title_cookbook" />
+        android:icon="@drawable/ic_round_restaurant_24"
+        android:title="@string/recipes" />
 
     <item
         android:id="@+id/navigation_favorites"
-        android:icon="@drawable/ic_favorite"
-        android:title="@string/title_favorites" />
+        android:icon="@drawable/ic_round_star_24"
+        android:title="@string/favorites" />
 
     <item
         android:id="@+id/navigation_shopping_list"
-        android:icon="@drawable/ic_shopping_list"
-        android:title="@string/title_shopping_list" />
+        android:icon="@drawable/ic_round_format_list_bulleted_24"
+        android:title="@string/shopping_list" />
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/title_settings" />
+        android:icon="@drawable/ic_round_settings_24"
+        android:title="@string/settings" />
 
 </menu>

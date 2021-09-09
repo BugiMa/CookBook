@@ -7,36 +7,41 @@
 
     <fragment
         android:id="@+id/navigation_cookbook"
-        android:name="com.example.cookbook.ui.cookbook.CookBookFragment"
-        android:label="@string/title_cookbook"
-        tools:layout="@layout/fragment_cookbook" >
+        android:name="com.example.cookbook.ui.fragment.RecipeListFragment"
+        android:label="@string/recipes"
+        tools:layout="@layout/fragment_recipe_list" >
+
         <action
-            android:id="@+id/action_navigation_cookbook_to_recipeFragment"
+            android:id="@+id/action_navigation_recipe_list_to_recipe_fragment"
             app:destination="@id/recipe_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.example.cookbook.ui.cookbook.CookBookFragment"
-        android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_cookbook" />
+        android:name="com.example.cookbook.ui.fragment.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_recipe_list" >
+        <action
+            android:id="@+id/action_navigation_favorites_to_recipe_fragment"
+            app:destination="@id/recipe_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_shopping_list"
-        android:name="com.example.cookbook.ui.shopping.ShoppingListFragment"
-        android:label="@string/title_shopping_list"
+        android:name="com.example.cookbook.ui.fragment.ShoppingListFragment"
+        android:label="@string/shopping_list"
         tools:layout="@layout/fragment_shopping_list" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.cookbook.ui.settings.SettingsFragment"
-        android:label="@string/title_settings"
+        android:name="com.example.cookbook.ui.fragment.SettingsFragment"
+        android:label="@string/settings"
         />
     <fragment
         android:id="@+id/recipe_fragment"
-        android:name="com.example.cookbook.ui.recipe.RecipeFragment"
-        android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" >
+        android:name="com.example.cookbook.ui.fragment.RecipeDetailsFragment"
+        android:label="@string/recipe_details"
+        tools:layout="@layout/fragment_recipe_details" >
         <argument
             android:name="id"
             app:argType="integer" />
