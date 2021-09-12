@@ -6,11 +6,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.cookbook.CookBookApplication
+import com.example.cookbook.data.local.ProductEntity
 import com.example.cookbook.data.local.RecipeEntity
 import com.example.cookbook.data.remote.Recipe
 import com.example.cookbook.data.remote.RecipeDetails
@@ -30,6 +32,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,6 +61,10 @@ class SharedViewModel @Inject constructor(
     val recipeDetails: LiveData<Resource<RecipeDetails>> get() = _recipeDetails
 
     private val favoriteRecipes: LiveData<List<RecipeEntity>> = recipeRepo.all()
+
+    private val products: LiveData<List<ProductEntity>> = shoppingListRepo.all()
+
+    private var isDietOrIntoleranceUpdated = false
 
     init {
         loadRecipes()
@@ -166,15 +173,43 @@ class SharedViewModel @Inject constructor(
         return isFav
     }
 
+    fun addProduct(product: ProductEntity) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            shoppingListRepo.insertProduct(product)
+        } catch (insertError: Exception) {
+            try {
+                shoppingListRepo.updateProduct(product.apply {
+                    this.quantity =
+                        this.quantity + shoppingListRepo.getProductByNameAndUnit(product.name, product.unit).quantity
+                })
+            } catch (updateError: Exception) {}
+        }
+    }
+    fun deleteProduct(product: ProductEntity) = viewModelScope.launch(Dispatchers.IO) {
+        shoppingListRepo.deleteProduct(product)
+    }
+    fun checkProduct(product: ProductEntity) = viewModelScope.launch(Dispatchers.IO) {
+        shoppingListRepo.updateProduct(
+            product.apply { this.isChecked = !this.isChecked }
+        )
+    }
+    fun deleteAllProducts() = viewModelScope.launch(Dispatchers.IO) {
+        shoppingListRepo.deleteAll()
+    }
+
     // Util
+    fun setDietAndIntoleranceUpdated(isUpdated: Boolean) {
+        this.isDietOrIntoleranceUpdated = isUpdated
+    }
+    fun getDietAndIntoleranceUpdated() = this.isDietOrIntoleranceUpdated
 
     fun setPage(page: Int) {
         this.page = page
     }
 
     fun getLoadedRecipes(): ArrayList<Recipe> = loadedRecipes
-
     fun getFavoriteRecipes(): LiveData<List<RecipeEntity>> = favoriteRecipes
+    fun getProducts(): LiveData<List<ProductEntity>> = products
 
     fun setQuery(query: List<String>?) {
         this.query = query
@@ -191,6 +226,4 @@ class SharedViewModel @Inject constructor(
     fun setMealTypes(intolerances: ArrayList<String>?) {
         this.mealTypes = intolerances
     }
-
-
 }

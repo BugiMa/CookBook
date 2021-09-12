@@ -3,9 +3,8 @@ package com.example.cookbook.data.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity (tableName = "products")
+@Entity (tableName = "products", primaryKeys = ["name", "unit"])
 data class ProductEntity(
-    @PrimaryKey
     val name: String,
     var quantity: Float,
     val unit: String,

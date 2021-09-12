@@ -31,6 +31,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         prefDiet?.setOnPreferenceChangeListener { _, newValue ->
             viewModel.setDiet(newValue as String)
             Toast.makeText(activity, "Diet: $newValue", Toast.LENGTH_LONG).show()
+            viewModel.setDietAndIntoleranceUpdated(true)
             true
         }
 
@@ -47,6 +48,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preference.summary = if (selected.isNotBlank()) selected else "None Selected"
 
             Toast.makeText(activity, "Intolerances: $selected", Toast.LENGTH_LONG).show()
+            viewModel.setDietAndIntoleranceUpdated(true)
             true
         }
 

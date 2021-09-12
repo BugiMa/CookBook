@@ -7,28 +7,23 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.example.cookbook.data.remote.Recipe
+import com.example.cookbook.data.local.ProductEntity
+import com.example.cookbook.data.local.RecipeEntity
 import com.example.cookbook.databinding.ListItemRecipeBinding
+import com.example.cookbook.ui.fragment.FavoritesFragmentDirections
 import com.example.cookbook.ui.fragment.RecipeListFragmentDirections
 import com.example.cookbook.util.GlideApp
 
-class RecipeListAdapter(
-    private val context: Context,
-    private val recipes: ArrayList<Recipe>,
-    private val favoriteCallback: ((recipeId: Int) -> Unit)?
-    ): RecyclerView.Adapter<RecipeListAdapter.RecipeViewHolder>() {
+class FavoritesAdapter(
+    private val context: Context
+): RecyclerView.Adapter<FavoritesAdapter.RecipeViewHolder>() {
 
+    private var recipes = emptyList<RecipeEntity>()
     inner class RecipeViewHolder (private val itemBinding: ListItemRecipeBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        init {
-            itemBinding.favoriteCheckBox.setOnClickListener {
-                favoriteCallback?.invoke(recipes[adapterPosition].id)
-            }
-        }
+
         fun bind(title: String, image: String, isFavorite: Boolean?) {
 
-
             itemBinding.favoriteCheckBox.visibility = View.GONE
-
             itemBinding.recipeTitle.text = title
             if (isFavorite != null) {
                 itemBinding.favoriteCheckBox.isChecked = isFavorite
@@ -48,17 +43,20 @@ class RecipeListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): FavoritesAdapter.RecipeViewHolder {
         val itemBinding = ListItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RecipeViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoritesAdapter.RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.bind(recipe.title, recipe.image, recipe.isFavorite)
         holder.itemView.setOnClickListener {
-            val directions = RecipeListFragmentDirections
-                .actionNavigationRecipeListToRecipeFragment(
+            val directions = FavoritesFragmentDirections
+                .actionNavigationFavoritesToRecipeFragment(
                     recipe.id,
                 )
             it.findNavController().navigate(directions)
@@ -69,16 +67,10 @@ class RecipeListAdapter(
         return recipes.size
     }
 
-    fun updateData(data: ArrayList<Recipe>) {
-        this.recipes.addAll(data)
-        notifyItemRangeInserted(itemCount, data.size)
+    fun setData(newData: List<RecipeEntity>?) {
+        if (newData != null) {
+            this.recipes = newData
+        }
+        notifyDataSetChanged()
     }
-
-    fun clearData() {
-        val count = itemCount
-        this.recipes.clear()
-        notifyItemRangeRemoved(0, count)
-    }
-
-
 }

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.cookbook.R
+import com.example.cookbook.data.local.ProductEntity
 import com.example.cookbook.data.local.RecipeEntity
 import com.example.cookbook.databinding.FragmentRecipeDetailsBinding
 import com.example.cookbook.databinding.FragmentRecipeListBinding
@@ -35,6 +36,9 @@ import com.example.cookbook.util.GlideApp
 import com.example.cookbook.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import org.w3c.dom.Text
+import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class RecipeDetailsFragment : Fragment() {
@@ -52,6 +56,7 @@ class RecipeDetailsFragment : Fragment() {
     ): View {
         _binding = FragmentRecipeDetailsBinding.inflate(inflater, container, false)
 
+        binding.addAllToListButton.visibility = View.GONE
         viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         viewModel.loadRecipeDetails(args.id)
 
@@ -82,6 +87,8 @@ class RecipeDetailsFragment : Fragment() {
                         binding.favoriteCheckBox.setOnClickListener {
                             val recipe = RecipeEntity(details.id, details.image, details.title, ingredients, steps, details.summary, true)
                             viewModel.favorite(recipe)
+                            Toast.makeText(requireContext(), "Recipe added to favorites.", Toast.LENGTH_LONG).show()
+
                         }
 
                         val progressBar = CircularProgressDrawable(requireContext()).apply {
@@ -94,6 +101,29 @@ class RecipeDetailsFragment : Fragment() {
                             .placeholder(progressBar)
                             .centerInside()
                             .into(binding.recipeImageView)
+
+                        binding.addAllToListButton.visibility = View.VISIBLE
+                        binding.addAllToListButton.setOnClickListener {
+                            for (ingredient in details.extendedIngredients ) {
+                                try {
+                                    val product = ProductEntity(
+                                        ingredient.name.replaceFirstChar {
+                                            if (it.isLowerCase()) it.titlecase(
+                                                Locale.getDefault()
+                                            ) else it.toString()
+                                        },
+                                        ingredient.measures.us.amount.toFloat(),
+                                        ingredient.measures.us.unitShort,
+                                        false
+                                    )
+                                    viewModel.addProduct(product)
+                                    Toast.makeText(requireContext(), "Products added to shopping list.", Toast.LENGTH_LONG).show()
+
+                                } catch (e: Exception) {
+                                    Toast.makeText(requireContext(), "An error occurred. Cant add products to shopping list", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -110,8 +140,6 @@ class RecipeDetailsFragment : Fragment() {
                 }
             }
         }
-
-
 
         return binding.root
     }

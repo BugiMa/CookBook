@@ -43,10 +43,11 @@ class RecipeListFragment: Fragment() {
         _binding = FragmentRecipeListBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
+
         val fab = binding.searchFab
         val progressBar = binding.progressBarContainerRecipeList
         val recyclerView = binding.recipeRecycleView
-        val recipeListAdapter = RecipeListAdapter (requireContext(), viewModel.getLoadedRecipes()) { id ->
+        val recipeListAdapter = RecipeListAdapter (requireContext(), viewModel.getLoadedRecipes(), favoriteCallback =  { id ->
 
             viewModel.loadRecipeDetails(id)
             viewModel.recipeDetails.observe(viewLifecycleOwner) { response ->
@@ -79,7 +80,7 @@ class RecipeListFragment: Fragment() {
                     }
                 }
             }
-        }
+        })
 
         recyclerView.apply {
             this.adapter = recipeListAdapter
@@ -103,16 +104,24 @@ class RecipeListFragment: Fragment() {
                 }
             })
         }
+
+        if (viewModel.getDietAndIntoleranceUpdated()) {
+            recipeListAdapter.clearData()
+        }
+
         viewModel.recipes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     Log.d("RECIPES OBSERVER", "Resource SUCCESS")
                     progressBar.visibility = View.GONE
                     response.data?.let { data ->
+
                         viewModel.getFavoriteRecipes().observe(viewLifecycleOwner, { entities ->
                             for (recipe in data) {
                                 if (entities.find { it.id == recipe.id } != null) {
-                                    recipe.isFavorite = true
+                                    recipe.apply {
+                                        this.isFavorite = true
+                                    }
                                 }
                             }
                         })
