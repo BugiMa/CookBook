@@ -108,6 +108,7 @@ class RecipeListFragment: Fragment() {
         if (viewModel.getDietAndIntoleranceUpdated()) {
             recipeListAdapter.clearData()
             viewModel.loadRecipes()
+            viewModel.setDietAndIntoleranceUpdated(false)
         }
 
         viewModel.recipes.observe(viewLifecycleOwner) { response ->
