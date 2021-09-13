@@ -1,6 +1,7 @@
 package com.example.cookbook.ui.fragment
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -43,6 +45,12 @@ class RecipeListFragment: Fragment() {
         _binding = FragmentRecipeListBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
+        viewModel.setDiet(PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getString("diet", null)
+        )
+        viewModel.setIntolerances(PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getStringSet("intolerance", null)?.filterIsInstance<String>() as ArrayList<String>
+        )
 
         val fab = binding.searchFab
         val progressBar = binding.progressBarContainerRecipeList
@@ -107,6 +115,7 @@ class RecipeListFragment: Fragment() {
 
         if (viewModel.getDietAndIntoleranceUpdated()) {
             recipeListAdapter.clearData()
+            viewModel.setPage(0)
             viewModel.loadRecipes()
             viewModel.setDietAndIntoleranceUpdated(false)
         }

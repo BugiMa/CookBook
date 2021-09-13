@@ -1,9 +1,11 @@
 package com.example.cookbook.ui.fragment
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -131,12 +134,16 @@ class ShoppingListFragment : Fragment() {
     private fun deleteProductDialog(product: ProductEntity) {
 
         AlertDialog.Builder(context)
-            .setTitle("Do You really want to delete this product?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle("What do you want to delete?")
+            .setPositiveButton("This Product") { _, _ ->
                 viewModel.deleteProduct(product)
                 Toast.makeText(requireContext(), "Product deleted.", Toast.LENGTH_LONG).show()
             }
-            .setNegativeButton("No") { dialog, _ -> dialog.cancel()}
+            .setNegativeButton("All Products") { _, _ ->
+                viewModel.deleteAllProducts()
+                Toast.makeText(requireContext(), "All products deleted.", Toast.LENGTH_LONG).show()
+            }
+            .setNeutralButton("Cancel") { dialog, _ -> dialog.cancel() }
             .show()
     }
 }

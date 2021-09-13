@@ -1,15 +1,19 @@
 package com.example.cookbook.ui.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import android.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +26,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, true)
+
+       if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_mode", true)) {
+           AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+           Toast.makeText(this, "Dark Mode Enabled", Toast.LENGTH_LONG).show()
+       } else {
+           AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+           Toast.makeText(this, "Dark Mode Disabled", Toast.LENGTH_LONG).show()
+       }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

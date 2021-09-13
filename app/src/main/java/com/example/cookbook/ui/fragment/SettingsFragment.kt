@@ -19,6 +19,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     lateinit var viewModel: SharedViewModel
 
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
@@ -40,7 +41,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (newValue is HashSet<*>) {
                 viewModel.setIntolerances(newValue.filterIsInstance<String>() as ArrayList<String>)
             }
-            
+
             val selected = newValue.toString()
                 .replace("[", "")
                 .replace("]", "")
