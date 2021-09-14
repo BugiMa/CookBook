@@ -82,9 +82,9 @@ class ShoppingListFragment : Fragment() {
         amountInput.filters += InputFilter.LengthFilter(4)
 
         val unitInput = EditText(context)
-        amountInput.inputType = InputType.TYPE_CLASS_TEXT
-        amountInput.hint = ("Unit")
-        amountInput.filters += InputFilter.LengthFilter(6)
+        unitInput.inputType = InputType.TYPE_CLASS_TEXT
+        unitInput.hint = ("Unit")
+        unitInput.filters += InputFilter.LengthFilter(6)
 
         val linearLayout = LinearLayout(context)
         linearLayout.layoutParams = LinearLayout.LayoutParams(
@@ -135,7 +135,7 @@ class ShoppingListFragment : Fragment() {
 
         AlertDialog.Builder(context)
             .setTitle("What do you want to delete?")
-            .setPositiveButton("This Product") { _, _ ->
+            .setPositiveButton("This Product (${product.name})") { _, _ ->
                 viewModel.deleteProduct(product)
                 Toast.makeText(requireContext(), "Product deleted.", Toast.LENGTH_LONG).show()
             }
