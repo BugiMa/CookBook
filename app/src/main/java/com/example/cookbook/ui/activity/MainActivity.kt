@@ -31,10 +31,8 @@ class MainActivity : AppCompatActivity() {
 
        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_mode", true)) {
            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-           Toast.makeText(this, "Dark Mode Enabled", Toast.LENGTH_LONG).show()
        } else {
            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-           Toast.makeText(this, "Dark Mode Disabled", Toast.LENGTH_LONG).show()
        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)

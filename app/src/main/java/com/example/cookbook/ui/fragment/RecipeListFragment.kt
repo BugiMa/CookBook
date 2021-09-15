@@ -45,12 +45,17 @@ class RecipeListFragment: Fragment() {
         _binding = FragmentRecipeListBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
-        viewModel.setDiet(PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .getString("diet", null)
-        )
-        viewModel.setIntolerances(PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .getStringSet("intolerance", null)?.filterIsInstance<String>() as ArrayList<String>
-        )
+        try {
+            viewModel.setDiet(
+                PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getString("diet", null)
+            )
+            viewModel.setIntolerances(
+                PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getStringSet("intolerance", null)
+                    ?.filterIsInstance<String>() as ArrayList<String>
+            )
+        } catch (e: Exception) {}
 
         val fab = binding.searchFab
         val progressBar = binding.progressBarContainerRecipeList
